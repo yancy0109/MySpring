@@ -4,7 +4,7 @@ import com.yancy.springframework.BeanDefinition;
 import com.yancy.springframework.BeanFactory;
 import org.junit.Test;
 
-public class BeanContainerTest {
+public class    BeanContainerTest {
 
     @Test
     public void test_BeanFactory() {
