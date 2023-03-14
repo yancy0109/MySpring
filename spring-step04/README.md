@@ -9,7 +9,10 @@
 - Object：通过反射，根据目标属性名称获取Field对象进行注入
 - BeanReference：先通过BeanReference获取BeanName，在容器中获取或新建Bean对象后，再通过反射，根据目标属性名称获取Field对象进行注入
 
+<img src="https://raw.githubusercontent.com/yancy0109/image/main/img/image-20230314235017998.png" alt="image-20230314235017998" style="zoom: 67%;" />
+
 使用到工具类：
+
 - BeanUtil：对Map/List/Object三种情况进行注入
 - ReflectUtil：具体实现注入Object属性
 
