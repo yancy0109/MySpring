@@ -11,3 +11,5 @@ AbstractAutowireCapableBeanFactory对其进行了实现，它内置了策略类I
 
 在这里默认使用策略类CglibSubclassingInstantiationStrategy
 AbstractAutowireCapableBeanFactory将建立实例交给类策略类实现，获得返回后进行了返回与Singleton注册
+
+![image-20230314195046120](https://raw.githubusercontent.com/yancy0109/image/main/img/image-20230314195046120.png)
