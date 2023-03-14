@@ -1,0 +1,13 @@
+### STEP03
+
+在之前的案例中，我们在实例化对象的时候，忽略对有参构造函数实例化，接下来我们对其进行了补充。
+
+在BeanFactory接口中，我们增加了传参getBean方法
+通过子类实现AbstractBeanFactory模版方法，将具体getBean实现方法交由了子类实现
+AbstractAutowireCapableBeanFactory对其进行了实现，它内置了策略类Instantiation接口对象
+在support包下包含了两个实现
+- CglibSubclassingInstantiationStrategy：通过CGLIB生成实例
+- SimpleInstantiationStrategy：通过反射生成实例 
+
+在这里默认使用策略类CglibSubclassingInstantiationStrategy
+AbstractAutowireCapableBeanFactory将建立实例交给类策略类实现，获得返回后进行了返回与Singleton注册
