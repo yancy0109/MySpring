@@ -11,6 +11,7 @@
     <modules>
         <module>spring-step01</module>
         <module>spring-step02</module>
+        <module>spring-step03</module>
     </modules>
 
 
