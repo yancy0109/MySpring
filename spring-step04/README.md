@@ -11,7 +11,7 @@
 
 <img src="https://raw.githubusercontent.com/yancy0109/image/main/img/image-20230314235017998.png" alt="image-20230314235017998" style="zoom: 67%;" />
 
-使用到工具类：
+使用到工具类(参考Hutool)：
 
 - BeanUtil：对Map/List/Object三种情况进行注入
 - ReflectUtil：具体实现注入Object属性
