@@ -7,5 +7,17 @@ package com.yancy.springframework.beans.factory.config;
  */
 public interface SingletonBeanRegistry {
 
+    /**
+     * 返回指定名称的（原始）单例对象
+     * @param beanName
+     * @return
+     */
     Object getSingleton(String beanName);
+
+    /**
+     * 注册单例对象
+     * @param beanName
+     * @param singletonObject
+     */
+    void registerSingleton(String beanName, Object singletonObject);
 }

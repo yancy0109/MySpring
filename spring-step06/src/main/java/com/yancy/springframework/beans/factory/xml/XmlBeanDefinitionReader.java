@@ -100,4 +100,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
 
     }
+
+    public void loadBeanDefinitions(String[] locations) {
+        for (String location : locations) {
+            loadBeanDefinitions(location);
+        }
+    }
 }

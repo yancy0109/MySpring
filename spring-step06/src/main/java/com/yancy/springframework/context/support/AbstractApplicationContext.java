@@ -46,9 +46,32 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         for (BeanPostProcessor beanPostProcessor : beanPostProcessorMap.values()) {
             beanFactory.addBeanPostProcessor(beanPostProcessor);
         }
-
     }
 
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
+    @Override
+    public Object getBean(String beanName) throws BeansException {
+        return getBeanFactory().getBean(beanName);
+    }
+
+    @Override
+    public <T> T getBean(String beanName, Class<?> requiredType) {
+        return getBeanFactory().getBean(beanName, requiredType);
+    }
+
+    @Override
+    public Object getBean(String beanName, Object... args) throws BeansException {
+        return getBeanFactory().getBean(beanName, args);
+    }
+
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
+        return getBeanFactory().getBeansOfType(type);
+    }
+
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return getBeanFactory().getBeanDefinitionNames();
+    }
 }
