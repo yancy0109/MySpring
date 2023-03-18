@@ -1,10 +1,10 @@
 ### STEP06
 实现上下文
-预处理
-- BeanFactoryPostProcessor：BeanDefinition注册后调用
-- BeanPostProcessor：Bean实例化过程中调用
 
-AbstractApplication：实现Refresh功能，使用模版方法模式，定义了refresh方法流程
-抽象方法：
-- refreshBeanFactory：加载BeanDefinition
-- getBeanFactory：返回BeanFactory
+提供了新接口，可以实现注册一些组件用于控制Bean对象创建前后的流程。
+
+提供refresh方法，对流程对象进行存储更新。
+
+类图分析：
+
+![image-20230318221304656](https://raw.githubusercontent.com/yancy0109/image/main/img/image-20230318221304656.png)
