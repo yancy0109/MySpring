@@ -11,5 +11,9 @@ public interface ConfigurableBeanFactory extends SingletonBeanRegistry, Hierarch
 
     String SCOPE_PROTOTYPE = "prototype";
 
+    /**
+     * 记录 BeanPostProcessor
+     * @param beanPostProcessor
+     */
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 }

@@ -13,7 +13,7 @@ public interface BeanFactory {
      * @return              返回目标类型对象
      * @param <T>
      */
-    <T> T getBean(String beanName, Class<?> requiredType);
+    <T> T getBean(String beanName, Class<T> requiredType);
 
     /**
      * 对有参构造函数进行实例化

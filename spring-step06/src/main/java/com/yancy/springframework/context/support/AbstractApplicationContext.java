@@ -9,8 +9,17 @@ import com.yancy.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Map;
 
+/**
+ * 抽象Application
+ * 模版方法模式 实现refresh方法
+ * 将自方法进行抽象定义，交由子类实现
+ */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
+    /**
+     * 模版方法模式
+     * @throws BeansException
+     */
     @Override
     public void refresh() throws BeansException {
         // 建立 BeanFactory 并加载 BeanDefinition
@@ -56,7 +65,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
     @Override
-    public <T> T getBean(String beanName, Class<?> requiredType) {
+    public <T> T getBean(String beanName, Class<T> requiredType) {
         return getBeanFactory().getBean(beanName, requiredType);
     }
 
