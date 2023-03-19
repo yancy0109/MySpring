@@ -59,6 +59,19 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
+
+    @Override
+    public void registerShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(this::close)
+        );
+    }
+
+    @Override
+    public void close() {
+        getBeanFactory().destroySingletons();
+    }
+
     @Override
     public Object getBean(String beanName) throws BeansException {
         return getBeanFactory().getBean(beanName);

@@ -14,6 +14,26 @@ public class BeanDefinition {
 
     private PropertyValues propertyValues;  // 对实例化对象的属性对象进行存储
 
+    private String initMethodName;  // 实例对象初始方法
+
+    private String destroyMethodName;   // 实例对象销毁方法
+
+    public String getInitMethodName() {
+        return initMethodName;
+    }
+
+    public void setInitMethodName(String initMethodName) {
+        this.initMethodName = initMethodName;
+    }
+
+    public String getDestroyMethodName() {
+        return destroyMethodName;
+    }
+
+    public void setDestroyMethodName(String destroyMethodName) {
+        this.destroyMethodName = destroyMethodName;
+    }
+
     public BeanDefinition(Class beanClass) {
         this.beanClass = beanClass;
         this.propertyValues = new PropertyValues();
