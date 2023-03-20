@@ -5,6 +5,7 @@ import com.yancy.springframework.beans.factory.config.BeanDefinition;
 import com.yancy.springframework.beans.factory.config.BeanPostProcessor;
 import com.yancy.springframework.beans.factory.config.ConfigurableBeanFactory;
 import com.yancy.springframework.beans.factory.config.DefaultSingletonBeanRegistry;
+import com.yancy.springframework.utils.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,11 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      * BeanPostProcessor 容器
      */
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+
+    /**
+     * ClassLoader 用于解析 bean class names
+     */
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     @Override
     public Object getBean(String beanName) throws BeansException {
@@ -58,5 +64,9 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 }
