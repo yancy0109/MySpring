@@ -5,8 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.yancy.springframework.beans.BeansException;
 import com.yancy.springframework.beans.PropertyValue;
 import com.yancy.springframework.beans.PropertyValues;
-import com.yancy.springframework.beans.factory.DisposableBean;
-import com.yancy.springframework.beans.factory.InitializingBean;
+import com.yancy.springframework.beans.factory.*;
 import com.yancy.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.yancy.springframework.beans.factory.config.BeanDefinition;
 import com.yancy.springframework.beans.factory.config.BeanPostProcessor;
@@ -52,6 +51,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // 处理感知类方法
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+        }
+
         // 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
@@ -148,7 +160,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object result = existingBean;
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
             Object current = beanPostProcessor.postProcessBeforeInitialization(result, beanName);
-            if (current == null) return current;
+            if (current == null) return result;
             result = current;
         }
         return result;
@@ -159,7 +171,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object result = existingBean;
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
             Object current = beanPostProcessor.postProcessAfterInitialization(result, beanName);
-            if (current == null) return current;
+            if (current == null) return result;
             result = current;
         }
         return result;
