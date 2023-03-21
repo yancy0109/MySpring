@@ -10,7 +10,7 @@ import com.yancy.springframework.context.ApplicationContext;
  * 依赖UuserDao对象
  * @author yancy0109
  */
-public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+public class UserService {
 
     private ApplicationContext applicationContext;
 
@@ -19,30 +19,10 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
     private String uId;
     private String company;
     private String location;
-    private UserDao userDao;
+    private IUserDao userDao;
 
-    public void queryUserInfo() {
-        System.out.println("查询用户信息：" + userDao.queryUserName(uId) + " 公司: " + company + "，地点: " + location);
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        System.out.println("ClassLoader: " + classLoader);
-    }
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
-
-    @Override
-    public void setBeanName(String name) throws BeansException {
-        System.out.println("Bean Name is: " + name);
+    public String  queryUserInfo() {
+        return userDao.queryUserName(uId) + " 公司: " + company + "，地点: " + location;
     }
 
     public String getuId() {
@@ -75,5 +55,9 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
 
     public BeanFactory getBeanFactory() {
         return beanFactory;
+    }
+
+    public IUserDao getUserDao() {
+        return userDao;
     }
 }

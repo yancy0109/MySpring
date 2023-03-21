@@ -15,9 +15,21 @@ import java.util.Set;
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
+    /**
+     * 单例对象容器
+     */
     private final Map<String, Object> singletonObjects = new HashMap<>();
 
+    /**
+     * 销毁对象适配器容器
+     */
     private final Map<String , DisposableBean> disposableBeans = new HashMap<>();
+
+    /**
+     * 单例对象的空对象标记
+     * 用作 cocurrentMap 标记值 （不支持 NULL）
+     */
+    protected static final Object NULL_OBJECT = new Object();
 
     @Override
     public Object getSingleton(String beanName) {
