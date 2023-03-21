@@ -10,6 +10,11 @@ import lombok.Data;
 @Data
 public class BeanDefinition {
 
+    String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
+
     private Class beanClass;    // 通过Class对象进行实例化操作
 
     private PropertyValues propertyValues;  // 对实例化对象的属性对象进行存储
@@ -17,6 +22,36 @@ public class BeanDefinition {
     private String initMethodName;  // 实例对象初始方法
 
     private String destroyMethodName;   // 实例对象销毁方法
+
+    private String scope = SCOPE_SINGLETON;
+
+    private boolean singleton = true;
+
+    private boolean prototype = false;
+
+    /**
+     * 在 xml 注册 bean 定义时，通过scope字段判断是单例还是原型
+     * @param scope
+     */
+    public void setScope(String scope) {
+        this.scope = scope;
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+    public boolean isPrototype() {
+        return prototype;
+    }
+
+
 
     public String getInitMethodName() {
         return initMethodName;
