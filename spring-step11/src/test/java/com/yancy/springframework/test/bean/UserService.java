@@ -1,8 +1,6 @@
 package com.yancy.springframework.test.bean;
 
-import com.yancy.springframework.beans.BeansException;
-import com.yancy.springframework.beans.factory.*;
-import com.yancy.springframework.context.ApplicationContext;
+import java.util.Random;
 
 /**
  * 测试类
@@ -10,54 +8,25 @@ import com.yancy.springframework.context.ApplicationContext;
  * 依赖UuserDao对象
  * @author yancy0109
  */
-public class UserService {
+public class UserService implements IUserService{
 
-    private ApplicationContext applicationContext;
-
-    private BeanFactory beanFactory;
-
-    private String uId;
-    private String company;
-    private String location;
-    private IUserDao userDao;
-
-    public String  queryUserInfo() {
-        return userDao.queryUserName(uId) + " 公司: " + company + "，地点: " + location;
+    @Override
+    public String queryUserInfo() {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return "yancy, 100001, Tianjin";
     }
 
-    public String getuId() {
-        return uId;
-    }
-
-    public void setuId(String uId) {
-        this.uId = uId;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    public BeanFactory getBeanFactory() {
-        return beanFactory;
-    }
-
-    public IUserDao getUserDao() {
-        return userDao;
+    @Override
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return "注册用户: " + userName + " success";
     }
 }
