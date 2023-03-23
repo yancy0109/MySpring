@@ -1,4 +1,4 @@
-package com.yancy.springframework.aop.aspectj;
+package com.yancy.springframework.aop;
 
 import com.yancy.springframework.aop.MethodMatcher;
 import com.yancy.springframework.aop.TargetSource;
