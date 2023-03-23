@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.yancy</groupId>
-    <artifactId>spring-step10</artifactId>
+    <artifactId>spring-step11</artifactId>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/cglib/cglib -->
         <dependency>
