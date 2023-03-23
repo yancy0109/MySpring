@@ -11,6 +11,7 @@ public interface ApplicationEventMulticaster {
 
     /**
      * 广播事件方法
+     * 根据 application 广播至合适的 listeners
      * @param event
      */
     void multicastEvent(ApplicationEvent event);
