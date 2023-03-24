@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 public class ReflectiveMethodInvocation implements MethodInvocation {
 
     // 目标参数
-    private final Object target;
+    protected final Object target;
 
     // 方法
     protected final Method method;
@@ -35,6 +35,11 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
         return arguments;
     }
 
+    /**
+     * 根据 属性参数 反射调用 原对象 方法
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object proceed() throws Throwable {
         return method.invoke(target, arguments);

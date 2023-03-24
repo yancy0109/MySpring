@@ -1,10 +1,15 @@
 package com.yancy.springframework.test;
+import com.yancy.springframework.aop.AdvisedSupport;
 import com.yancy.springframework.aop.MethodMatcher;
+import com.yancy.springframework.aop.TargetSource;
 import com.yancy.springframework.aop.aspectj.AspectJExpressionPointcut;
+import com.yancy.springframework.aop.framework.Cglib2AopProxy;
+import com.yancy.springframework.aop.framework.JdkDynamicAopProxy;
 import com.yancy.springframework.aop.framework.ReflectiveMethodInvocation;
 import com.yancy.springframework.test.bean.IUserService;
 import com.yancy.springframework.test.bean.UserService;
 
+import com.yancy.springframework.test.bean.UserServiceInterceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.Test;
 
@@ -29,7 +34,7 @@ public class ApiTest {
                 new InvocationHandler() {
 
                     // 方法拦截器
-                    MethodMatcher methodMatcher = new AspectJExpressionPointcut("execution(* cn.bugstack.springframework.test.bean.IUserService.*(..))");
+                    MethodMatcher methodMatcher = new AspectJExpressionPointcut("execution(* com.yancy.springframework.test.bean.IUserService.*(..))");
 
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -47,7 +52,7 @@ public class ApiTest {
                                 }
                             };
                             // 反射调用
-                            return methodInterceptor.invoke(new ReflectiveMethodInvocation(proxy, method, args));
+                            return methodInterceptor.invoke(new ReflectiveMethodInvocation(targetObject, method, args));
                         }
                         return method.invoke(targetObject, args);
                     }
@@ -66,5 +71,32 @@ public class ApiTest {
 
         System.out.println(pointcut.matches(clazz));    // true
         System.out.println(pointcut.matches(method, clazz));    // true
+    }
+
+    @Test
+    public void test_dynamic() {
+        // 目标对象
+
+        IUserService userService = new UserService();
+
+        // 组装代理信息
+        AdvisedSupport advisedSupport = new AdvisedSupport();
+        advisedSupport.setTargetSource(new TargetSource(userService));
+        advisedSupport.setMethodInterceptor(new UserServiceInterceptor());
+        advisedSupport.setMethodMatcher(
+                new AspectJExpressionPointcut("execution(* com.yancy.springframework.test.bean.IUserService.*(..))")
+        );
+
+        // 获取代理对象
+        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport);
+        // 调用
+        System.out.println("测试结果: " + proxy_jdk.queryUserInfo());
+
+        // 获取代理对象
+        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport);
+        // 调用
+        System.out.println("测试结果: " + proxy_cglib.queryUserInfo());
+
+
     }
 }
