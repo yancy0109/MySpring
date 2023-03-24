@@ -18,8 +18,11 @@ public class Cglib2AopProxy implements AopProxy{
     @Override
     public Object getProxy() {
         Enhancer enhancer = new Enhancer();
+        // 通过继承实现
         enhancer.setSuperclass(advised.getTargetSource().getTarget().getClass());
+        // 接口
         enhancer.setInterfaces(advised.getTargetSource().getTargetClass());
+        //
         enhancer.setCallback(new DynamicAdvisedInterceptor(advised));
         return enhancer.create();
     }
@@ -32,18 +35,31 @@ public class Cglib2AopProxy implements AopProxy{
             this.advised = advised;
         }
 
+        /**
+         * @param obj "this", the enhanced object
+         * @param method intercepted Method
+         * @param args argument array; primitive types are wrapped
+         * @param proxy used to invoke super (non-intercepted method); may be called
+         * as many times as needed
+         * @return
+         * @throws Throwable
+         */
         @Override
         public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
             CglibMethodInvocation methodInvocation = new CglibMethodInvocation(advised.getTargetSource().getTarget(), method, args, proxy);
             if (advised.getMethodMatcher().matches(method, advised.getTargetSource().getClass())) {
                 return advised.getMethodInterceptor().invoke(methodInvocation);
             }
-            return method.invoke(obj, args);
+            // 直接调用
+            return methodInvocation.proceed();
         }
     }
 
     private static class CglibMethodInvocation extends ReflectiveMethodInvocation {
 
+        /**
+         * 用于调用原对象方法
+         */
         private final MethodProxy methodProxy;
 
         public CglibMethodInvocation(Object target, Method method, Object[] args, MethodProxy methodProxy) {

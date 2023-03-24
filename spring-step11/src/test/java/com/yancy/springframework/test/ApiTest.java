@@ -88,12 +88,12 @@ public class ApiTest {
         );
 
         // 获取代理对象
-        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport);
+        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport).getProxy();
         // 调用
         System.out.println("测试结果: " + proxy_jdk.queryUserInfo());
 
         // 获取代理对象
-        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport);
+        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
         // 调用
         System.out.println("测试结果: " + proxy_cglib.queryUserInfo());
 

@@ -13,6 +13,11 @@ public class TargetSource {
         this.target = target;
     }
 
+    /**
+     * 获得接口信息
+     * Cglib 是通过继承实现代理 所以需要 getSuperclass
+     * @return
+     */
     public Class<?>[] getTargetClass() {
         Class<?> clazz = this.target.getClass();
         clazz = ClassUtils.isCglibProxyClass(clazz) ? clazz.getSuperclass() : clazz;

@@ -11,14 +11,23 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 切点表达式类
+ */
 public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodMatcher {
 
+    /**
+     * 支持表达式类型
+     */
     private static final Set<PointcutPrimitive> SUPPORT_PRIMITIVES = new HashSet<>();
 
     static {
         SUPPORT_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
     }
 
+    /**
+     * 提供是否匹配的方法
+     */
     private final PointcutExpression pointcutExpression;
 
     public AspectJExpressionPointcut(String expression) {
@@ -26,11 +35,22 @@ public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodM
         pointcutExpression = pointcutParser.parsePointcutExpression(expression);
     }
 
+    /**
+     * 确定类是否匹配给定类的连接点
+     * @param clazz
+     * @return
+     */
     @Override
     public boolean matches(Class<?> clazz) {
         return pointcutExpression.couldMatchJoinPointsInType(clazz);
     }
 
+    /**
+     * 切入点是否与给定方法匹配
+     * @param method
+     * @param targetClass
+     * @return
+     */
     @Override
     public boolean matches(Method method, Class<?> targetClass) {
         return pointcutExpression.matchesMethodExecution(method)

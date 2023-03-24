@@ -14,6 +14,9 @@ import java.lang.reflect.Proxy;
  */
 public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 
+    /**
+     * 切面通知信息
+     */
     private final AdvisedSupport advised;
 
     public JdkDynamicAopProxy(AdvisedSupport advised) {
@@ -23,8 +26,11 @@ public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
     @Override
     public Object getProxy() {
         return Proxy.newProxyInstance(
+                // ClassLoader
                 Thread.currentThread().getContextClassLoader(),
+                // 接口信息
                 advised.getTargetSource().getTargetClass(),
+                // Invocation#invoke 实现类
                 this
         );
     }
@@ -33,6 +39,7 @@ public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 如果 方法匹配 成功
         if (advised.getMethodMatcher().matches(method, advised.getTargetSource().getTarget().getClass())) {
+            // 方法拦截器
             MethodInterceptor methodInterceptor = advised.getMethodInterceptor();
             // 通过方法拦截器进行处理 并内含 ReflectiveMethodInvocation#process 调用原对象方法
             return methodInterceptor.invoke(new ReflectiveMethodInvocation(advised.getTargetSource().getTarget(), method, args));
