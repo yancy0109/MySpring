@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <!--注册监听器-->
+    <bean class="com.yancy.springframework.test.event.ContextClosedEventListener"/>
+    <bean class="com.yancy.springframework.test.event.ContextRefreshedEventListener"/>
+    <bean class="com.yancy.springframework.test.event.CustomEventListener"/>
+</beans>
