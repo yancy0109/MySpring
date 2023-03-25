@@ -67,7 +67,7 @@ public class ApiTest {
     public void test_aop() throws NoSuchMethodException {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut("execution(* com.yancy.springframework.test.bean.UserService.*(..))");
         Class<UserService> clazz = UserService.class;
-        Method method = clazz.getDeclaredMethod("queryUserInfo");
+        Method method = clazz.getDeclaredMethod("queryUserInfo");  
 
         System.out.println(pointcut.matches(clazz));    // true
         System.out.println(pointcut.matches(method, clazz));    // true
