@@ -27,6 +27,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         try {
             // 判断是否返回代理 Bean对象
             bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            // 没有代理类预处理Processor / 该对象不是需要代理的对象
             if (bean != null) {
                 return bean;
             }
@@ -53,6 +54,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     private Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
         Object bean = applyBeanPostProcessorsBeforeInitialization(beanDefinition.getBeanClass(), beanName);
         if (null != bean) {
+            // 如果为代理对象，直接进行 ProcessorAfterInitialization 处理
             bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
         }
         return bean;

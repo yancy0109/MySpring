@@ -10,7 +10,7 @@ import org.aopalliance.aop.Advice;
  */
 public class AspectJExpressionPointcutAdvisor implements PointcutAdvisor {
 
-    // 切面
+    // 切面（通过 expression 实例化并提供比较器）
     private AspectJExpressionPointcut pointcut;
 
     // 具体拦截方法
