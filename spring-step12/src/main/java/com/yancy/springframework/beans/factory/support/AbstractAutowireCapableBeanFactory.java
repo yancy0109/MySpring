@@ -30,6 +30,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             if (bean != null) {
                 return bean;
             }
+
             // 通过策略类创建对象
             bean = createBeanInstance(beanDefinition, beanName, args);
             applyPropertyValues(beanName, bean, beanDefinition);
@@ -57,10 +58,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return bean;
     }
 
+    /**
+     * 处理返回代理对象
+     * @param beanClass
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     public Object applyBeanPostProcessorsBeforeInitialization(Class<?> beanClass, String beanName) throws BeansException {
         for (BeanPostProcessor processor : getBeanPostProcessors()) {
-            Object result = ((InstantiationAwareBeanPostProcessor) processor).postProcessBeforeInstantiation(beanClass, beanName);
-            if (null != result) return result;
+            // 代理对象前置处理器
+            if (processor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) processor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (null != result) return result;
+            }
         }
         return null;
     }

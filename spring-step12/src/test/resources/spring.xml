@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-    <!--注册监听器-->
-    <bean class="com.yancy.springframework.test.event.ContextClosedEventListener"/>
-    <bean class="com.yancy.springframework.test.event.ContextRefreshedEventListener"/>
-    <bean class="com.yancy.springframework.test.event.CustomEventListener"/>
+
+    <bean id="userService" class="com.yancy.springframework.test.bean.UserService"/>
+
+    <bean class="com.yancy.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="beforeAdvice" class="com.yancy.springframework.test.bean.UserServiceBeforeAdvice"/>
+
+    <bean id="methodInterceptor" class="com.yancy.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="pointcutAdvisor" class="com.yancy.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* com.yancy.springframework.test.bean.IUserService.*(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
 </beans>
