@@ -22,7 +22,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
                 return clazz.getDeclaredConstructor().newInstance();
             }
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new BeansException("Failed to insntantiate [" + clazz.getName());
+            throw new BeansException("Failed to instantiate [" + clazz.getName());
         }
     }
 }

@@ -29,6 +29,10 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 
     private String location;
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         // 加载属性文件
@@ -50,13 +54,22 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
                     StringBuilder buffer = new StringBuilder(strVal);
                     int startIdx = strVal.indexOf(DEFAULT_PLACEHOLDER_PREFIX);
                     int stopIdx = strVal.indexOf(DEFAULT_PLACEHOLDER_SUFFIX);
-
+                    // 如果为 占位符
+                    if (startIdx != -1 && stopIdx != -1 && startIdx < stopIdx) {
+                        String propKey = strVal.substring(startIdx + 2, stopIdx);
+                        String propVal = properties.getProperty(propKey);
+                        buffer.replace(startIdx, stopIdx + 1, propVal);
+                        // propertyValue 替换
+                        propertyValues.addPropertyValue(
+                                new PropertyValue(propertyValue.getName(), buffer.toString())
+                        );
+                    }
                 }
-
             }
-
         } catch (IOException e) {
-
+            throw new BeansException("Could not load properties");
         }
+
+
     }
 }
