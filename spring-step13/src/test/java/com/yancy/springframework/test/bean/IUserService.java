@@ -5,7 +5,6 @@ package com.yancy.springframework.test.bean;
  */
 public interface IUserService {
 
-    String register(String username);
-
     String queryUserInfo();
+    String register(String userName);
 }
