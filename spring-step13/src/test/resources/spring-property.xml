@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+
+    <!-- BeanFactoryProcessor 实例化前对 BeanDefinition 中 占位符 String 类型 Property 对象，替换为 properties 文件指定 Value-->
+    <bean class="com.yancy.springframework.beans.factory.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:token.properties"/>
+    </bean>
+
+    <bean id="userService" class="com.yancy.springframework.test.bean.UserService">
+        <property name="token" value="${token}"/>
+    </bean>
+</beans>

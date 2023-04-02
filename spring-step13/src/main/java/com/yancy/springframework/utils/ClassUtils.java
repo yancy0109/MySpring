@@ -36,9 +36,4 @@ public class ClassUtils {
     private static boolean isCglibProxyClassName(String className) {
         return (className != null && className.contains("$$"));
     }
-
-    public static Set<Class<?>> scanPackageByAnnotation(String basePackage, Class<Component> componentClass) {
-
-        return null;
-    }
 }

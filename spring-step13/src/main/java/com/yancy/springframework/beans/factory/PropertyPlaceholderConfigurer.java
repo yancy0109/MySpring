@@ -18,21 +18,30 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 
 
     /**
-     * Default Prefix
+     * Default Prefix : {@value}
      */
     public static final String DEFAULT_PLACEHOLDER_PREFIX = "${";
 
     /**
-     * Default Suffix
+     * Default Suffix : {@value}
      */
     public static final String DEFAULT_PLACEHOLDER_SUFFIX = "}";
 
+    /**
+     *  location of reading
+     */
     private String location;
 
     public void setLocation(String location) {
         this.location = location;
     }
 
+    /**
+     * 读取 Location 位置下 x.Properties，遍历存储的每个 BeanDefinition，对 String 类型 PropertyValue 进行比较
+     * 如果 PopertyValue 属性为占位符，则读取 Properties 中符合 propKey 的属性，通过 PropertyValue 进行替换
+     * @param beanFactory
+     * @throws BeansException
+     */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         // 加载属性文件
@@ -69,7 +78,5 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
         } catch (IOException e) {
             throw new BeansException("Could not load properties");
         }
-
-
     }
 }

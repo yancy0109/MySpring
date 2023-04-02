@@ -1,7 +1,7 @@
 package com.yancy.springframework.test;
 
 import com.yancy.springframework.context.support.ClassPathXmlApplicationContext;
-import com.yancy.springframework.test.bean.IUserService;
+import com.yancy.springframework.test.bean.UserService;
 import org.junit.Test;
 
 /**
@@ -11,12 +11,12 @@ import org.junit.Test;
 public class ApiTest {
 
     @Test
-    public void test_aop() {
+    public void test_property() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-                "classpath:spring.xml"
+          "classpath:spring-property.xml"
         );
-        IUserService userService = applicationContext.getBean("userService", IUserService.class);
-        System.out.println(userService.queryUserInfo());
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        System.out.println(userService.getToken());
     }
 
 
