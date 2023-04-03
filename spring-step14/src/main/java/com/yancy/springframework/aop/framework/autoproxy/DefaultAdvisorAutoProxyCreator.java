@@ -4,6 +4,7 @@ import com.yancy.springframework.aop.*;
 import com.yancy.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import com.yancy.springframework.aop.framework.ProxyFactory;
 import com.yancy.springframework.beans.BeansException;
+import com.yancy.springframework.beans.PropertyValues;
 import com.yancy.springframework.beans.factory.BeanFactory;
 import com.yancy.springframework.beans.factory.BeanFactoryAware;
 import com.yancy.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
@@ -71,7 +72,17 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         return null;
     }
 
+    /**
+     * 是否为基础设施类
+     * @param beanClass
+     * @return
+     */
     private boolean isInfrastructureClass(Class<?> beanClass) {
         return Advice.class.isAssignableFrom(beanClass) || Pointcut.class.isAssignableFrom(beanClass) || Advisor.class.isAssignableFrom(beanClass);
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        return pvs;
     }
 }

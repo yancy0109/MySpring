@@ -7,6 +7,7 @@ import com.yancy.springframework.beans.factory.config.BeanPostProcessor;
 import com.yancy.springframework.beans.factory.config.ConfigurableBeanFactory;
 import com.yancy.springframework.beans.factory.config.DefaultSingletonBeanRegistry;
 import com.yancy.springframework.utils.ClassUtils;
+import com.yancy.springframework.utils.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,10 @@ import java.util.List;
  */
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
+    /**
+     * String Resolvers，用于处理 例如 注解属性
+     */
+    private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
     /**
      * BeanPostProcessor 容器
@@ -86,5 +91,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
     public ClassLoader getBeanClassLoader() {
         return this.beanClassLoader;
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+        this.embeddedValueResolvers.add(valueResolver);
+    }
+
+    @Override
+    public String resolveEmbeddedValueResolver(String value) {
+        String result = value;
+        for (StringValueResolver resolver : this.embeddedValueResolvers) {
+            // 如果 Value 为占位符 String 类型，则遍历找到匹配 Properties 进行填充
+            result = resolver.resolveStringValue(result);
+        }
+        return result;
     }
 }

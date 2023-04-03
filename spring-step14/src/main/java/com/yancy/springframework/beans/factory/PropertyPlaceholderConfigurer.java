@@ -69,10 +69,10 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
                 }
                 // 向容器中添加字符串解析器，供解析@Value注解使用
                 PlaceholderResolvingStringValueResolver valueResolver = new PlaceholderResolvingStringValueResolver(properties);
-//                beanFactory.addEmbeddedValueResolver(valueResolver);
+                beanFactory.addEmbeddedValueResolver(valueResolver);
             }
         } catch (IOException e) {
-            throw new BeansException("Could not load properties");
+            throw new BeansException("Could not load properties", e);
         }
     }
 
@@ -106,6 +106,7 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 
         @Override
         public String resolveStringValue(String strVal) {
+            // 访问外部类对象的处理方法 使得 Resolver 绑定了 不同 Location 下 Properties
             return PropertyPlaceholderConfigurer.this.resolvePlaceholder(strVal, properties);
         }
     }
