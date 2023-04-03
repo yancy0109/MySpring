@@ -19,5 +19,13 @@ public class ApiTest {
         System.out.println(userService.getToken());
     }
 
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+                "classpath:spring-scan.xml"
+        );
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        System.out.println(userService.queryUserInfo());
+    }
 
 }
