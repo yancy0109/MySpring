@@ -4,7 +4,9 @@ import com.yancy.springframework.beans.BeansException;
 import com.yancy.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.yancy.springframework.beans.factory.config.BeanDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,4 +60,22 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     public String[] getBeanDefinitionNames() {
         return beanDefinitionMap.keySet().toArray(new String[0]);
     }
+
+    @Override
+    public <T> T getBean(Class<T> requiredType) throws BeansException {
+        List<String> beanNames = new ArrayList<>();
+        for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
+            Class beanClass = entry.getValue().getBeanClass();
+            if (requiredType.isAssignableFrom(beanClass)) {
+                beanNames.add(entry.getKey());
+            }
+        }
+        // BeanType 无冲突 || 存在
+        if (beanNames.size() == 1) {
+            return getBean(beanNames.get(0), requiredType);
+        }
+
+        throw new BeansException(requiredType + "excepted single bean but not found" + beanNames.size() + ": " + beanNames);
+    }
+
 }

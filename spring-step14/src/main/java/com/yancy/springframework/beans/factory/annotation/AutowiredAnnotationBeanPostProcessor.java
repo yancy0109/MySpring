@@ -52,6 +52,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
                 } else {
                     dependentBean = beanFactory.getBean(fieldType);
                 }
+                BeanUtil.setFieldValue(bean, field.getName(), dependentBean);
             }
         }
 
