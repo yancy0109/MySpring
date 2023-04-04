@@ -35,7 +35,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 
         // 注册处理注解（@Autowired @Value）的 BeanPostProcessor
         registry.registerBeanDefinition(
-                "com.yancy.springframework.context.annotation.innternalAutowiredAnnotationProcessor",
+                "com.yancy.springframework.context.annotation.internalAutowiredAnnotationProcessor",
                 new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class)
         );
 
