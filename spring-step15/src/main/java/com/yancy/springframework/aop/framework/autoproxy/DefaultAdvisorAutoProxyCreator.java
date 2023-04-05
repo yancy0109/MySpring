@@ -34,11 +34,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-
-    @Override
-    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        Class<?> beanClass = bean.getClass();
         // 如果为 基础设施类 则不需要处理
         if(isInfrastructureClass(beanClass)) return null;
         // 实例化获取 AspectJExpressionPointcutAdvisor 对象
@@ -46,18 +42,10 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         // 遍历所有 advisors
         for (AspectJExpressionPointcutAdvisor advisor : advisors) {
             ClassFilter classFilter = advisor.getPointcut().getClassFilter();
-            // 如果当前类 与 切点类型匹配契合
             if(!classFilter.matches(beanClass)) continue;
-
+            // 如果当前类 与 切点类型匹配契合
             AdvisedSupport advisedSupport = new AdvisedSupport();
-
-            TargetSource targetSource = null;
-            try {
-                // 通过构造器实例化原对象
-                targetSource = new TargetSource(beanClass.getDeclaredConstructor().newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            TargetSource targetSource = new TargetSource(bean);
             // 配置原对象
             advisedSupport.setTargetSource(targetSource);
             // 配置方法拦截器
@@ -69,6 +57,12 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
             // 返回 ProxyFactory 对象
             return new ProxyFactory(advisedSupport).getProxy();
         }
+
+        return bean;
+    }
+
+    @Override
+    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
 
         return null;
     }

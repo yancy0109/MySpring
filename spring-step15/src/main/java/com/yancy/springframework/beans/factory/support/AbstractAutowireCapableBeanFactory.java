@@ -34,7 +34,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
             // 通过策略类创建对象
             bean = createBeanInstance(beanDefinition, beanName, args);
-            // 在 根据 BeanDefinition 设置属性前，允许 BeanPostProcessor 修改 Bean 属性值
+            // 在 根据 BeanDefinition 设置属性前, 允许 BeanPostProcessor 修改 Bean 属性值
             applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 给 Bean 填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
