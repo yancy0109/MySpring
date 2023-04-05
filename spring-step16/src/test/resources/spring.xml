@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans>
+
+    <bean id="testService1" class="com.yancy.springframework.test.bean.TestService1">
+        <property name="testService2" ref="testService2"/>
+    </bean>
+
+    <bean id="testService2" class="com.yancy.springframework.test.bean.TestService2">
+        <property name="testService1" ref="testService1"/>
+    </bean>
+
+</beans>
