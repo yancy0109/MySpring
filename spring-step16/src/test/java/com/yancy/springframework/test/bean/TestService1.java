@@ -7,4 +7,10 @@ public class TestService1 {
 
     private TestService2 testService2;
 
+    @Override
+    public String toString() {
+        return "TestService1 "+ this.hashCode() + " {" +
+                "testService2=" + testService2.hashCode() +
+                '}';
+    }
 }

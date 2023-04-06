@@ -13,6 +13,9 @@ import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 自动创建代理者
@@ -22,6 +25,8 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     private DefaultListableBeanFactory beanFactory;
 
+    private final Set<Object> earlyProxyReferences = Collections.synchronizedSet(new HashSet<>());
+
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = (DefaultListableBeanFactory) beanFactory;
@@ -29,20 +34,36 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
+        return null;
+    }
+
+    @Override
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        return true;
+    }
+
+    @Override
+    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        return null;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        Class<?> beanClass = bean.getClass();
+        if (!earlyProxyReferences.contains(beanName)) {
+            return wrapIfNecessary(bean, beanName);
+        }
+        return bean;
+    }
+
+    protected Object wrapIfNecessary(Object bean, String beanName) {
         // 如果为 基础设施类 则不需要处理
-        if(isInfrastructureClass(beanClass)) return null;
+        if(isInfrastructureClass(bean.getClass())) return null;
         // 实例化获取 AspectJExpressionPointcutAdvisor 对象
         Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
         // 遍历所有 advisors
         for (AspectJExpressionPointcutAdvisor advisor : advisors) {
             ClassFilter classFilter = advisor.getPointcut().getClassFilter();
-            if(!classFilter.matches(beanClass)) continue;
+            if(!classFilter.matches(bean.getClass())) continue;
             // 如果当前类 与 切点类型匹配契合
             AdvisedSupport advisedSupport = new AdvisedSupport();
             TargetSource targetSource = new TargetSource(bean);
@@ -62,9 +83,9 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     }
 
     @Override
-    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-
-        return null;
+    public Object getEarlyBeanReference(Object bean, String beanName) {
+        earlyProxyReferences.add(beanName);
+        return wrapIfNecessary(bean, beanName);
     }
 
     /**
