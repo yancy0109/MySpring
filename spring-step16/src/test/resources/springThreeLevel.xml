@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+
+    <bean id="husband" class="com.yancy.springframework.test.bean.Husband">
+        <property name="wife" ref="wife"/>
+    </bean>
+
+    <bean id="wife" class="com.yancy.springframework.test.bean.Wife">
+        <property name="husband" ref="husband"/>
+    </bean>
+
+    <bean id="husbandMother" class="com.yancy.springframework.test.bean.HusbandMother"/>
+
+    <bean class="com.yancy.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="beforeAdvice" class="com.yancy.springframework.test.bean.SpouseAdvice"/>
+
+    <bean id="methodInterceptor" class="com.yancy.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="pointcutAdvisor" class="com.yancy.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* com.yancy.springframework.test.bean.Wife.*(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
+</beans>
