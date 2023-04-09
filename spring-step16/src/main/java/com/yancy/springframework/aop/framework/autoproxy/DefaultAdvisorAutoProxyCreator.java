@@ -25,6 +25,10 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     private DefaultListableBeanFactory beanFactory;
 
+    /**
+     * 如果 创建的 Bean 对象，被其他属性循环依赖，则会主动调用了 创建代理类逻辑，该类已经不需要再去创建代理类
+     * 可以直接注册 Singleton，而代理类对象已经被其他类依赖时创建并放入了 DefaultSingletonBeanRegister#earlySingletonObjects
+     */
     private final Set<Object> earlyProxyReferences = Collections.synchronizedSet(new HashSet<>());
 
     @Override
@@ -49,6 +53,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        // 如果不含有 ProxyReference, 则主动创建代理类
         if (!earlyProxyReferences.contains(beanName)) {
             return wrapIfNecessary(bean, beanName);
         }
@@ -56,8 +61,8 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     }
 
     protected Object wrapIfNecessary(Object bean, String beanName) {
-        // 如果为 基础设施类 则不需要处理
-        if(isInfrastructureClass(bean.getClass())) return null;
+        // 如果为 基础设施类 则不需要处理 返回原对象
+        if(isInfrastructureClass(bean.getClass())) return bean;
         // 实例化获取 AspectJExpressionPointcutAdvisor 对象
         Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
         // 遍历所有 advisors
@@ -74,7 +79,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
             // 配置方法匹配器
             advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
             // 是否使用 Cglib 代理
-            advisedSupport.setProxyTargetClass(false);
+            advisedSupport.setProxyTargetClass(true);
             // 返回 ProxyFactory 对象
             return new ProxyFactory(advisedSupport).getProxy();
         }

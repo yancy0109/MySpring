@@ -7,6 +7,6 @@ public class Wife {
     private IMother mother;
 
     public String queryHusband() {
-        return "";
+        return "Wife.husband, Mother.callMother: " + mother.callMother();
     }
 }

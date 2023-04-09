@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-
+    <!-- 三级缓存 XML -->
     <bean id="husband" class="com.yancy.springframework.test.bean.Husband">
         <property name="wife" ref="wife"/>
     </bean>
 
     <bean id="wife" class="com.yancy.springframework.test.bean.Wife">
         <property name="husband" ref="husband"/>
+        <property name="mother" ref="husbandMother"/>
     </bean>
 
     <bean id="husbandMother" class="com.yancy.springframework.test.bean.HusbandMother"/>

@@ -2,7 +2,6 @@ package com.yancy.springframework.test;
 
 import com.yancy.springframework.context.support.ClassPathXmlApplicationContext;
 import com.yancy.springframework.test.bean.Husband;
-import com.yancy.springframework.test.bean.TestService2;
 import com.yancy.springframework.test.bean.Wife;
 import org.junit.Test;
 
