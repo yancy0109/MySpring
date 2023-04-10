@@ -1,6 +1,6 @@
 package com.yancy.springframework.context;
 
-import com.yancy.springframework.beans.core.io.ResourceLoader;
+import com.yancy.springframework.core.io.ResourceLoader;
 import com.yancy.springframework.beans.factory.HierarchicalBeanFactory;
 import com.yancy.springframework.beans.factory.ListableBeanFactory;
 

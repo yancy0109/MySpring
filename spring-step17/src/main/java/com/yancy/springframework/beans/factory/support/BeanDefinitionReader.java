@@ -1,8 +1,8 @@
 package com.yancy.springframework.beans.factory.support;
 
 import com.yancy.springframework.beans.BeansException;
-import com.yancy.springframework.beans.core.io.Resource;
-import com.yancy.springframework.beans.core.io.ResourceLoader;
+import com.yancy.springframework.core.io.Resource;
+import com.yancy.springframework.core.io.ResourceLoader;
 
 /**
  * Bean定义读取接口

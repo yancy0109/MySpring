@@ -1,8 +1,8 @@
 package com.yancy.springframework.beans.factory.support;
 
 
-import com.yancy.springframework.beans.core.io.DefaultResourceLoader;
-import com.yancy.springframework.beans.core.io.ResourceLoader;
+import com.yancy.springframework.core.io.DefaultResourceLoader;
+import com.yancy.springframework.core.io.ResourceLoader;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.yancy.springframework.beans.core.io;
+package com.yancy.springframework.core.io;
 
 /**
  * 包装资源加载器接口类

@@ -1,7 +1,7 @@
 package com.yancy.springframework.context.support;
 
 import com.yancy.springframework.beans.BeansException;
-import com.yancy.springframework.beans.core.io.DefaultResourceLoader;
+import com.yancy.springframework.core.io.DefaultResourceLoader;
 import com.yancy.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.yancy.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import com.yancy.springframework.beans.factory.config.BeanPostProcessor;

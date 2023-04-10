@@ -1,4 +1,4 @@
-package com.yancy.springframework.beans.core.io;
+package com.yancy.springframework.core.io;
 
 import cn.hutool.core.lang.Assert;
 import com.yancy.springframework.utils.ClassUtils;

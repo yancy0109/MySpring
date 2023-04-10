@@ -1,4 +1,4 @@
-package com.yancy.springframework.beans.core.io;
+package com.yancy.springframework.core.io;
 
 import java.io.File;
 import java.io.FileInputStream;
