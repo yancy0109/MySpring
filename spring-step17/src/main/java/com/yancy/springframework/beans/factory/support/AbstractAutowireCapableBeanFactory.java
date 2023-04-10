@@ -2,10 +2,13 @@ package com.yancy.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import com.yancy.springframework.beans.BeansException;
 import com.yancy.springframework.beans.PropertyValue;
 import com.yancy.springframework.beans.PropertyValues;
-import com.yancy.springframework.beans.factory.BeansException;
+import com.yancy.springframework.beans.factory.*;
+import com.yancy.springframework.beans.factory.config.*;
+import com.yancy.springframework.core.convert.ConversionService;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -260,16 +263,24 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
                 }
-                // 对属性进行填充
+                // 类型转换
+                else {
+                    Class<?> sourceType = value.getClass();
+                    Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), name);
+                    ConversionService conversionService = getConversionService();
+                    if (conversionService != null) {
+                        if (conversionService.canConvert(sourceType, targetType)) {
+                            value = conversionService.convert(value, targetType);
+                        }
+                    }
+                }
+                // 反射对属性进行填充
                 BeanUtil.setFieldValue(bean, name, value);
             }
         } catch (Exception e) {
-            throw new BeansException("Error setting property values: " + beanName);
+            throw new BeansException("Error setting property values: " + beanName + " message: " + e);
         }
     }
-
-
-
 
     @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {

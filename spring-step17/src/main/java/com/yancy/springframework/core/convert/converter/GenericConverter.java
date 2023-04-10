@@ -5,15 +5,21 @@ import cn.hutool.core.lang.Assert;
 import java.util.Set;
 
 /**
- * 通用转换器
+ * 通用转换器接口
  */
 public interface GenericConverter {
 
+    /**
+     * 返回这个转换器能够转换的类型集合
+     */
     Set<ConvertiblePair> getConvertibleTypes();
 
     Object convert(Object source, Class<?> sourceType, Class<?> targetType);
 
 
+    /**
+     * 用于描述可以转换的类型
+     */
     final class ConvertiblePair {
         private final Class<?> sourceType;
 

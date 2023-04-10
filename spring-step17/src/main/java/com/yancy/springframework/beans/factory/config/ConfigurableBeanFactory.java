@@ -1,6 +1,7 @@
 package com.yancy.springframework.beans.factory.config;
 
 import com.yancy.springframework.beans.factory.HierarchicalBeanFactory;
+import com.yancy.springframework.core.convert.ConversionService;
 import com.yancy.springframework.utils.StringValueResolver;
 
 /**
@@ -31,4 +32,11 @@ public interface ConfigurableBeanFactory extends SingletonBeanRegistry, Hierarch
      */
     String resolveEmbeddedValueResolver(String value);
 
+    /**
+     * 指定一个 ConversionService
+     * @param conversionService
+     */
+    void setConversionService(ConversionService conversionService);
+
+    ConversionService getConversionService();
 }

@@ -1,6 +1,7 @@
 package com.yancy.springframework.context.support;
 
 import com.yancy.springframework.beans.BeansException;
+import com.yancy.springframework.core.convert.ConversionService;
 import com.yancy.springframework.core.io.DefaultResourceLoader;
 import com.yancy.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.yancy.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -54,11 +55,23 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         // 注册事件监听器
         registerListeners();
 
-        // 提前实例化单例Bean对象
-        beanFactory.preInstantiateSingletons();
+        // 设置类型转换器 提前实例化单例 Bean 对象
+        finishBeanFactoryInitialization(beanFactory);
 
         // 发布容器刷新完成事件
         finishRefresh();
+    }
+
+    private void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+        // 设置类型转化器
+        if (beanFactory.getBeanDefinition("conversionService") != null) {
+            Object conversionService = beanFactory.getBean("conversionService");
+            if (conversionService instanceof ConversionService) {
+                beanFactory.setConversionService((ConversionService) conversionService);
+            }
+        }
+        // 提前实例化单例Bean对象
+        beanFactory.preInstantiateSingletons();
     }
 
     private void finishRefresh() {

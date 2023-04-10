@@ -1,5 +1,10 @@
 package com.yancy.springframework.core.convert.converter;
 
+/**
+ * 类型转换工厂
+ * @param <S>
+ * @param <R>
+ */
 public interface ConverterFactory<S, R> {
 
     /**

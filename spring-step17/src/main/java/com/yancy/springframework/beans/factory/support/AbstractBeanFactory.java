@@ -5,6 +5,7 @@ import com.yancy.springframework.beans.factory.FactoryBean;
 import com.yancy.springframework.beans.factory.config.BeanDefinition;
 import com.yancy.springframework.beans.factory.config.BeanPostProcessor;
 import com.yancy.springframework.beans.factory.config.ConfigurableBeanFactory;
+import com.yancy.springframework.core.convert.ConversionService;
 import com.yancy.springframework.utils.ClassUtils;
 import com.yancy.springframework.utils.StringValueResolver;
 
@@ -29,9 +30,25 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     /**
+     * 转换服务类
+     */
+    private ConversionService conversionService;
+
+    /**
      * ClassLoader 用于解析 bean class names
      */
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+
+    @Override
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
+
+    @Override
+    public ConversionService getConversionService() {
+        return conversionService;
+    }
 
     @Override
     public Object getBean(String beanName) throws BeansException {

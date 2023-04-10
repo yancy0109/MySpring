@@ -1,6 +1,9 @@
 package com.yancy.springframework.core.convert.converter;
 
-public interface ConvertRegistry {
+/**
+ * 类型转换注册接口
+ */
+public interface ConverterRegistry {
 
     void addConverter(Converter<?, ?> converter);
 
