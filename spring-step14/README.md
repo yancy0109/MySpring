@@ -18,7 +18,7 @@
 
 #### 对注解处理通用流程
 
-实现 InstantiationAwareBeanPostProcessor，BeanFactoryAware 接口，在 Bean 对象实例化完成后，设置属性操作前进行操作
+实现 InstantiationAwareBeanPostProcessor，BeanFactoryAware 接口  -->  AutowiredAnnotationBeanPostProcessor，在 Bean 对象实例化完成后，设置属性操作前进行操作
 
 1. 处理 Bean Class 对象，获取真实 Class 对象（ Cglib 通过继承了原始类）
 2. 获取 Class 对象所有 Filed，进行遍历，如果 Filed 拥有注解 @Value，则获取 Value 值 交由 ConfigurableBeanFactory#resolveEmbeddedValueResolver 进行处理，返回真实值（如果为通配符则为 Properties 中匹配值，否则为原始值）
