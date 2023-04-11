@@ -21,7 +21,7 @@
 
 ##### 属性占位符
 
-实现 BeanFactoryProcessor 接口 PropertyPlaceholderConfigurer，在实例化前进行调用流程。
+实现 BeanFactoryProcessor 接口  -->  PropertyPlaceholderConfigurer，在实例化前进行调用流程。
 
 通过 配置文件 读取 BeanDefinition 进行提前注册，并进行了调用。
 
